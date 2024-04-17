@@ -5,13 +5,11 @@ import org.springframework.ai.chat.ChatClient;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SummaryServiceImpl implements SummaryService {
+final class SummaryServiceImpl implements SummaryService {
 
-    private final ReviewService reviewService;
     private final ChatClient chatClient;
 
-    public SummaryServiceImpl(ReviewService reviewService, ChatClient chatClient) {
-        this.reviewService = reviewService;
+    public SummaryServiceImpl(ChatClient chatClient) {
         this.chatClient = chatClient;
     }
 
@@ -21,8 +19,7 @@ public class SummaryServiceImpl implements SummaryService {
     }
 
     @Override
-    public String getSummary(String url) {
-
-        return "SummaryServiceImpl.getSummary() called with url: " + url;
+    public String getSummary(final String review) {
+        return "SummaryServiceImpl.getSummary() called with review: " + review;
     }
 }
