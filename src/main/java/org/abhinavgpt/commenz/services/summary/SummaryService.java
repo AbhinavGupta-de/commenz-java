@@ -1,6 +1,7 @@
 package org.abhinavgpt.commenz.services.summary;
 
-public interface SummaryService {
-    String greetingMessage();
-    String getSummary(String url);
+public sealed interface SummaryService permits SummaryServiceImpl
+{
+	String greetingMessage();
+	String getSummary(String review);
 }

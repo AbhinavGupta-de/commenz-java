@@ -1,19 +1,21 @@
 package org.abhinavgpt.commenz.services.reviews;
 
-import org.springframework.ai.chat.ChatClient;
+import org.abhinavgpt.commenz.services.scrapping.Scrapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class ReviewServiceImpl implements  ReviewService{
+final class ReviewServiceImpl implements  ReviewService{
 
-    private final ChatClient chatClient;
+    private final Scrapper scrapper;
 
-    public ReviewServiceImpl(ChatClient chatClient) {
-        this.chatClient = chatClient;
+    public ReviewServiceImpl(final Scrapper scrapper) {
+		this.scrapper = scrapper;
     }
 
     @Override
-    public String getReviews(String url) {
-        return "ReviewServiceImpl.getReviews() called with url: " + url;
+    public List<String> getReviews(final String url) {
+        return List.of("ReviewServiceImpl.getReviews() called with url: " + url);
     }
 }
