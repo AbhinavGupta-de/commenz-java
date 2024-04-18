@@ -1,6 +1,8 @@
 package org.abhinavgpt.commenz.services.scrapping;
 
-public sealed interface Scrapper permits ScrapperImpl
-{
-	String scrap(String url);
+import java.util.List;
+
+public interface Scrapper {
+	String cleaningURL(String url);
+	List<String> scrap(String url);
 }
