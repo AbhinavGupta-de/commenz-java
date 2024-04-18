@@ -21,8 +21,8 @@ final class AmazonScrapper implements Scrapper {
         String[] urlParts = url.split("\\.");
         String region = urlParts[2].split("/")[0];
 
-        urlParts = url.split("/");
-        String productId = urlParts[5];
+        String[] urlPartsT = url.split("/");
+        String productId = urlPartsT[5];
         return "https://www.amazon." + region + "/product-reviews/" + productId;
 
     }
@@ -48,6 +48,9 @@ final class AmazonScrapper implements Scrapper {
                     reviews.add(element.getText());
                 }
                 if (reviews.size() == 10) break;
+
+//                To prevent infinite loop
+                if (i == 5) break;
 
                 WebElement nextButton = driver.findElement(By.cssSelector("li[class='a-last']"));
                 if (nextButton == null) break;
