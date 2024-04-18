@@ -1,9 +1,9 @@
 package org.abhinavgpt.commenz;
 
-import org.abhinavgpt.commenz.services.scrapping.AmazonScrapper;
 import org.abhinavgpt.commenz.services.scrapping.Scrapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class CommenzApplicationTests {
 
-    @InjectMocks
-    Scrapper scrapper = new AmazonScrapper();
+    @Autowired
+    Scrapper scrapper;
 
     @Test
     void testCleaningURL() {
