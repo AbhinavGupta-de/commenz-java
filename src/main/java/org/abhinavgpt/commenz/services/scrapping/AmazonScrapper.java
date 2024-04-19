@@ -25,8 +25,8 @@ final class AmazonScrapper implements Scrapper {
         final int REGION_INDEX = 2;
 
         try {
-            List<String> urlParts = List.of(url.split("\\."));
-            String region = urlParts.get(REGION_INDEX);
+            List<String> urlParts = List.of(url.split("\\.")[REGION_INDEX].split("/"));
+            String region = urlParts.getFirst();
 
             urlParts = List.of(url.split("/"));
             String productId = urlParts.get(PRODUCT_ID_INDEX);
