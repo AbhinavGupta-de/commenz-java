@@ -11,27 +11,20 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-final class SummaryServiceImpl implements SummaryService
-{
-	private final ChatClient chatClient;
+final class SummaryServiceImpl implements SummaryService {
+    private final ChatClient chatClient;
 
-	@Value("classpath:/prompt/summarize_reviews.st")
-	private Resource reviewSummaryPromptTemplateString;
+    @Value("classpath:/prompt/summarize_reviews.st")
+    private Resource reviewSummaryPromptTemplateString;
 
-	@Override
-	public String getSummary(final List<String> reviews)
-	{
-		PromptTemplate promptTemplate = new PromptTemplate(reviewSummaryPromptTemplateString);
-		Prompt prompt = promptTemplate.create(Map.of("reviews", reviews));
-		return chatClient.call(prompt).getResult().getOutput().getContent();
-//		return chatClient.call("I have collected some reviews about a product. " +
-//				"Can you read them and summarize what people are saying about the product? " +
-//				"Is it worth it or people are saying that it is bad not worth it. " +
-//				"Are there some specific issues with the product that people mentioned?" + reviews.toString());
-	}
+    public SummaryServiceImpl(ChatClient chatClient) {
+        this.chatClient = chatClient;
+    }
 
-	public SummaryServiceImpl(ChatClient chatClient)
-	{
-		this.chatClient = chatClient;
-	}
+    @Override
+    public String getSummary(final List<String> reviews) {
+        PromptTemplate promptTemplate = new PromptTemplate(reviewSummaryPromptTemplateString);
+        Prompt prompt = promptTemplate.create(Map.of("reviews", reviews));
+        return chatClient.call(prompt).getResult().getOutput().getContent();
+    }
 }
