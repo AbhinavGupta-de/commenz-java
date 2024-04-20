@@ -9,7 +9,6 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ThreadLocalRandom;
@@ -23,6 +22,8 @@ final class AmazonScrapper implements Scrapper {
 
         final int PRODUCT_ID_INDEX = 5;
         final int REGION_INDEX = 2;
+        final String urlPattern = "https://www.amazon.";
+        final String reviewPage = "/product-reviews/";
 
         try {
             List<String> urlParts = List.of(url.split("\\.")[REGION_INDEX].split("/"));
@@ -30,7 +31,7 @@ final class AmazonScrapper implements Scrapper {
 
             urlParts = List.of(url.split("/"));
             String productId = urlParts.get(PRODUCT_ID_INDEX);
-            return "https://www.amazon." + region + "/product-reviews/" + productId;
+            return urlPattern + region + reviewPage + productId;
         } catch (Exception e) {
             throw new InvalidURLException("Invalid URL");
         }
@@ -41,10 +42,13 @@ final class AmazonScrapper implements Scrapper {
     public List<String> scrap(String url) throws InvalidURLException {
 
         final int MAX_REVIEWS = 10;
+        final String page = "?pageNumber=";
+        final String reviewContainer = "span[data-hook='review-body']";
+        final String nextBtnContainer = "li[class='a-last']";
 
         url = cleanURL(url);
 
-        StringBuilder str = new StringBuilder(url + "?pageNumber=");
+        StringBuilder str = new StringBuilder(url + page);
 
         List<String> reviews = new ArrayList<>();
 
@@ -63,13 +67,13 @@ final class AmazonScrapper implements Scrapper {
                 driver = new FirefoxDriver(options);
                 driver.get(str.toString() + numberOfIterations);
 
-                List<WebElement> reviewElements = driver.findElements(By.cssSelector("span[data-hook='review-body']"));
+                List<WebElement> reviewElements = driver.findElements(By.cssSelector(reviewContainer));
                 reviews.addAll(reviewElements.stream().map(WebElement::getText).toList());
 
                 if (reviews.size() == MAX_REVIEWS) break;
 
                 try {
-                    driver.findElement(By.cssSelector("li[class='a-last']"));
+                    driver.findElement(By.cssSelector(nextBtnContainer));
                 } catch (NoSuchElementException e) {
                     break;
                 } finally {
