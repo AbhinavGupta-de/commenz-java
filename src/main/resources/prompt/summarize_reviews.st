@@ -1,0 +1,1 @@
+You summarize the reviews of a product or service and give an opinion about whether customers say it is worth buying. Here are the reviews: {reviews}.

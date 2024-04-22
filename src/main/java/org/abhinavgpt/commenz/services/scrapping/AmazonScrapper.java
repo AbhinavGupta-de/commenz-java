@@ -9,7 +9,6 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,20 +16,22 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 final class AmazonScrapper implements Scrapper {
 
-    List<String> userAgents = Arrays.asList("Mozilla/5.0 (Windows; U; Windows NT 6.3) AppleWebKit/533.1.0 (KHTML, like Gecko) Chrome/25.0.891.0 Safari/533.1.0", "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 5.0; Trident/6.1; .NET CLR 2.9.84083.0)", "Mozilla/5.0 (compatible; MSIE 7.0; Windows NT 6.1; Trident/3.1; .NET CLR 4.0.98053.6)", "Mozilla/5.0 (Windows; U; Windows NT 5.1) AppleWebKit/536.0.1 (KHTML, like Gecko) Chrome/23.0.822.0 Safari/536.0.1", "Mozilla/5.0 (Windows; U; Windows NT 5.0) AppleWebKit/533.2.2 (KHTML, like Gecko) Chrome/39.0.841.0 Safari/533.2.2", "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.2; Trident/7.0; .NET CLR 2.9.76162.7)", "Mozilla/5.0 (Windows; U; Windows NT 5.1) AppleWebKit/534.1.2 (KHTML, like Gecko) Chrome/29.0.804.0 Safari/534.1.2", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_1 rv:6.0; RM) AppleWebKit/536.2.0 (KHTML, like Gecko) Version/6.1.6 Safari/536.2.0", "Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/538.2.0 (KHTML, like Gecko) Chrome/32.0.824.0 Safari/538.2.0", "Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/531.2.0 (KHTML, like Gecko) Chrome/16.0.836.0 Safari/531.2.0", "Mozilla/5.0 (Windows; U; Windows NT 5.0) AppleWebKit/534.0.2 (KHTML, like Gecko) Chrome/19.0.818.0 Safari/534.0.2", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5 rv:6.0; LA) AppleWebKit/531.1.2 (KHTML, like Gecko) Version/6.1.0 Safari/531.1.2", "Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/536.0.2 (KHTML, like Gecko) Chrome/14.0.840.0 Safari/536.0.2", "Mozilla/5.0 (Windows; U; Windows NT 5.0) AppleWebKit/531.1.1 (KHTML, like Gecko) Chrome/21.0.896.0 Safari/531.1.1", "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.3; Trident/6.1; .NET CLR 4.3.24127.9)", "Mozilla/5.0 (Windows; U; Windows NT 6.3) AppleWebKit/531.0.1 (KHTML, like Gecko) Chrome/15.0.885.0 Safari/531.0.1", "Mozilla/5.0 (Windows; U; Windows NT 5.0) AppleWebKit/533.0.1 (KHTML, like Gecko) Chrome/27.0.892.0 Safari/533.0.1", "Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/536.1.0 (KHTML, like Gecko) Chrome/20.0.805.0 Safari/536.1.0", "Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/533.0.1 (KHTML, like Gecko) Chrome/17.0.857.0 Safari/533.0.1");
+    List<String> userAgents = List.of("Mozilla/5.0 (Windows; U; Windows NT 6.3) AppleWebKit/533.1.0 (KHTML, like Gecko) Chrome/25.0.891.0 Safari/533.1.0", "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 5.0; Trident/6.1; .NET CLR 2.9.84083.0)", "Mozilla/5.0 (compatible; MSIE 7.0; Windows NT 6.1; Trident/3.1; .NET CLR 4.0.98053.6)", "Mozilla/5.0 (Windows; U; Windows NT 5.1) AppleWebKit/536.0.1 (KHTML, like Gecko) Chrome/23.0.822.0 Safari/536.0.1", "Mozilla/5.0 (Windows; U; Windows NT 5.0) AppleWebKit/533.2.2 (KHTML, like Gecko) Chrome/39.0.841.0 Safari/533.2.2", "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.2; Trident/7.0; .NET CLR 2.9.76162.7)", "Mozilla/5.0 (Windows; U; Windows NT 5.1) AppleWebKit/534.1.2 (KHTML, like Gecko) Chrome/29.0.804.0 Safari/534.1.2", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_1 rv:6.0; RM) AppleWebKit/536.2.0 (KHTML, like Gecko) Version/6.1.6 Safari/536.2.0", "Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/538.2.0 (KHTML, like Gecko) Chrome/32.0.824.0 Safari/538.2.0", "Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/531.2.0 (KHTML, like Gecko) Chrome/16.0.836.0 Safari/531.2.0", "Mozilla/5.0 (Windows; U; Windows NT 5.0) AppleWebKit/534.0.2 (KHTML, like Gecko) Chrome/19.0.818.0 Safari/534.0.2", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5 rv:6.0; LA) AppleWebKit/531.1.2 (KHTML, like Gecko) Version/6.1.0 Safari/531.1.2", "Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/536.0.2 (KHTML, like Gecko) Chrome/14.0.840.0 Safari/536.0.2", "Mozilla/5.0 (Windows; U; Windows NT 5.0) AppleWebKit/531.1.1 (KHTML, like Gecko) Chrome/21.0.896.0 Safari/531.1.1", "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.3; Trident/6.1; .NET CLR 4.3.24127.9)", "Mozilla/5.0 (Windows; U; Windows NT 6.3) AppleWebKit/531.0.1 (KHTML, like Gecko) Chrome/15.0.885.0 Safari/531.0.1", "Mozilla/5.0 (Windows; U; Windows NT 5.0) AppleWebKit/533.0.1 (KHTML, like Gecko) Chrome/27.0.892.0 Safari/533.0.1", "Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/536.1.0 (KHTML, like Gecko) Chrome/20.0.805.0 Safari/536.1.0", "Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/533.0.1 (KHTML, like Gecko) Chrome/17.0.857.0 Safari/533.0.1");
 
     private String cleanURL(String url) throws InvalidURLException {
 
         final int PRODUCT_ID_INDEX = 5;
         final int REGION_INDEX = 2;
+        final String urlPattern = "https://www.amazon.";
+        final String reviewPage = "/product-reviews/";
 
         try {
-            List<String> urlParts = List.of(url.split("\\."));
-            String region = urlParts.get(REGION_INDEX);
+            List<String> urlParts = List.of(url.split("\\.")[REGION_INDEX].split("/"));
+            String region = urlParts.getFirst();
 
             urlParts = List.of(url.split("/"));
             String productId = urlParts.get(PRODUCT_ID_INDEX);
-            return "https://www.amazon." + region + "/product-reviews/" + productId;
+            return urlPattern + region + reviewPage + productId;
         } catch (Exception e) {
             throw new InvalidURLException("Invalid URL");
         }
@@ -41,10 +42,13 @@ final class AmazonScrapper implements Scrapper {
     public List<String> scrap(String url) throws InvalidURLException {
 
         final int MAX_REVIEWS = 10;
+        final String page = "?pageNumber=";
+        final String reviewContainer = "span[data-hook='review-body']";
+        final String nextBtnContainer = "li[class='a-last']";
 
         url = cleanURL(url);
 
-        StringBuilder str = new StringBuilder(url + "?pageNumber=");
+        StringBuilder str = new StringBuilder(url + page);
 
         List<String> reviews = new ArrayList<>();
 
@@ -63,13 +67,13 @@ final class AmazonScrapper implements Scrapper {
                 driver = new FirefoxDriver(options);
                 driver.get(str.toString() + numberOfIterations);
 
-                List<WebElement> reviewElements = driver.findElements(By.cssSelector("span[data-hook='review-body']"));
+                List<WebElement> reviewElements = driver.findElements(By.cssSelector(reviewContainer));
                 reviews.addAll(reviewElements.stream().map(WebElement::getText).toList());
 
                 if (reviews.size() == MAX_REVIEWS) break;
 
                 try {
-                    driver.findElement(By.cssSelector("li[class='a-last']"));
+                    driver.findElement(By.cssSelector(nextBtnContainer));
                 } catch (NoSuchElementException e) {
                     break;
                 } finally {

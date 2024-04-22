@@ -18,8 +18,13 @@ public class ReviewController {
         this.reviewOrchestrator = reviewOrchestrator;
     }
 
+    @GetMapping("")
+    public ResponseEntity<String> defaultResponse() {
+        return ResponseEntity.ok("Welcome to Commenz API");
+    }
+
     @GetMapping("/summarize")
     public ResponseEntity<String> summarize(@RequestParam String url) throws InvalidURLException, URLNotSupportedException {
-        return ResponseEntity.ok(reviewOrchestrator.getSummarizedReviews(url).toString());
+        return ResponseEntity.ok(reviewOrchestrator.getSummarizedReviews(url));
     }
 }
