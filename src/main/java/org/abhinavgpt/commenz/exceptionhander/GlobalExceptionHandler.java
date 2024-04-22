@@ -8,20 +8,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler
+{
+	@ExceptionHandler(InvalidURLException.class)
+	public ResponseEntity<String> handleInvalidURL(InvalidURLException e)
+	{
+		return ResponseEntity.badRequest().body(e.getMessage());
+	}
 
-    @ExceptionHandler(InvalidURLException.class)
-    public ResponseEntity<String> handleInvalidURL(InvalidURLException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
+	@ExceptionHandler(URLNotSupportedException.class)
+	public ResponseEntity<String> handleURLNotSupported(URLNotSupportedException e)
+	{
+		return ResponseEntity.badRequest().body(e.getMessage());
+	}
 
-    @ExceptionHandler(URLNotSupportedException.class)
-    public ResponseEntity<String> handleURLNotSupported(URLNotSupportedException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleException(Exception e) {
-        return ResponseEntity.internalServerError().body(e.getMessage());
-    }
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<String> handleException(Exception e)
+	{
+		return ResponseEntity.internalServerError().body(e.getMessage());
+	}
 }
