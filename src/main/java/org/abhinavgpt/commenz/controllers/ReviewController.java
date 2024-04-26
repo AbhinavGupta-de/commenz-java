@@ -1,35 +1,30 @@
 package org.abhinavgpt.commenz.controllers;
 
-import org.abhinavgpt.commenz.services.summary.SummaryService;
+import org.abhinavgpt.commenz.exceptions.InvalidURLException;
+import org.abhinavgpt.commenz.exceptions.URLNotSupportedException;
+import org.abhinavgpt.commenz.services.orchestrator.ReviewOrchestrator;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/review")
 public class ReviewController {
+    private final ReviewOrchestrator reviewOrchestrator;
 
-    private final SummaryService summaryService ;
-
-    public ReviewController(SummaryService summaryService) {
-        this.summaryService = summaryService;
+    public ReviewController(final ReviewOrchestrator reviewOrchestrator) {
+        this.reviewOrchestrator = reviewOrchestrator;
     }
 
     @GetMapping("")
-    public ResponseEntity<String> getReviews() {
-        try {
-            return ResponseEntity.ok(summaryService.greetingMessage());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<String> defaultResponse() {
+        return ResponseEntity.ok("Welcome to Commenz API");
     }
 
-    @PostMapping("/summarize")
-    public ResponseEntity<String> summarize(@RequestBody String url) {
-        try {
-            return ResponseEntity.ok(summaryService.getSummary(url));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @GetMapping("/summarize")
+    public ResponseEntity<String> summarize(@RequestParam String url) throws InvalidURLException, URLNotSupportedException {
+        return ResponseEntity.ok(reviewOrchestrator.getSummarizedReviews(url));
     }
-
 }
